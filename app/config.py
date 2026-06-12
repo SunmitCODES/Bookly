@@ -1,22 +1,25 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    database_url: str
-    supabase_url: str
-    supabase_key: str
-    razorpay_key_id: str
-    razorpay_key_secret: str
+    # Only the database and secret key are truly required to boot.
+    database_url: str = "sqlite:///./bookly.db"
+    secret_key: str = "change-me-in-production"
+    # Everything else has a safe default so a missing/blank env var never
+    # crashes startup; integrations no-op until their keys are provided.
+    supabase_url: str = ""
+    supabase_key: str = ""
+    razorpay_key_id: str = ""
+    razorpay_key_secret: str = ""
     razorpay_webhook_secret: str = ""
     razorpay_plan_pro: str = ""        # Razorpay Plan ID for the ₹699 tier
     razorpay_plan_business: str = ""   # Razorpay Plan ID for the ₹1999 tier
-    resend_api_key: str
+    resend_api_key: str = ""
     email_from: str = "onboarding@resend.dev"
-    gupshup_api_key: str
+    gupshup_api_key: str = ""
     gupshup_source: str = ""    # WhatsApp sender number registered with Gupshup
     gupshup_app_name: str = ""  # Gupshup app name
     reminder_lead_hours: int = 24
-    redis_url: str
-    secret_key: str
+    redis_url: str = "redis://localhost:6379"
     environment: str = "development"
     sentry_dsn: str = ""  # blank = error monitoring disabled (dev)
     r2_account_id: str = ""
