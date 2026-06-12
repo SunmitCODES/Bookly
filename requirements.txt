@@ -12,10 +12,8 @@ redis
 icalendar
 razorpay
 resend
-supabase
 boto3
 sentry-sdk
 python-multipart
 jinja2
 bcrypt==4.0.1
-pytest
