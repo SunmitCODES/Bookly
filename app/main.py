@@ -48,6 +48,11 @@ app = FastAPI(
     version="0.1.0"
 )
 
+# Ensure the static dir exists (git doesn't track empty folders, so it may be
+# absent in a fresh container) before mounting — otherwise StaticFiles raises.
+import os as _os
+
+_os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
