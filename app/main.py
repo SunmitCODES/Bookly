@@ -31,7 +31,16 @@ from app.models import (
 import sys as _sys
 
 if "pytest" not in _sys.modules:
-    Base.metadata.create_all(bind=engine)
+    # Don't let a transient DB hiccup crash startup (and fail the healthcheck).
+    # Log it and continue; the next request will reconnect.
+    import logging as _logging
+
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as _exc:  # noqa: BLE001
+        _logging.getLogger("bookly").error(
+            "create_all failed at startup (continuing): %s", _exc
+        )
 
 app = FastAPI(
     title="Bookly",
