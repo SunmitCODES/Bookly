@@ -18,9 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # App code.
 COPY . .
 
-# Railway provides $PORT; default to 8000 locally.
-ENV PORT=8000
 EXPOSE 8000
 
-# Shell form so $PORT expands at runtime.
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT}
+# Railway injects $PORT at runtime; fall back to 8000 when it's absent
+# (e.g. local docker run). Shell form so the variable expands.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
