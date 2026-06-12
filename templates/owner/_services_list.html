@@ -1,0 +1,22 @@
+<div id="services-list">
+  {% if error %}
+  <p class="bg-red-50 text-red-700 text-sm rounded p-2 mb-3">{{ error }}</p>
+  {% endif %}
+  {% if services %}
+  <ul class="divide-y">
+    {% for s in services %}
+    <li class="flex items-center justify-between py-2">
+      <span>{{ s.name }} — ₹{{ "%.0f"|format(s.price) }} · {{ s.duration_mins }} min</span>
+      <button
+        hx-post="/setup/services/{{ s.id }}/delete"
+        hx-target="#services-list"
+        hx-swap="outerHTML"
+        hx-confirm="Delete this service?"
+        class="text-xs text-red-600 hover:underline">Delete</button>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-slate-400 text-sm">No services yet — add your first one above.</p>
+  {% endif %}
+</div>

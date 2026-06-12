@@ -1,0 +1,11 @@
+<div class="border border-green-300 bg-green-50 rounded-lg p-6 text-center">
+  <div class="text-4xl mb-2">✅</div>
+  <h2 class="text-xl font-bold text-green-800">Booking confirmed!</h2>
+  <p class="mt-2 text-slate-700">
+    {{ booking.customer_name }}, your {{ service_name }} is booked for
+    <strong>{{ booking.start_time | ist }}</strong>.
+  </p>
+  {% if booking.customer_email %}
+  <p class="mt-1 text-sm text-slate-500">A confirmation email is on its way.</p>
+  {% endif %}
+</div>

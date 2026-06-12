@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Set up your business — Bookly{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-xl shadow p-6 mt-10">
+  <h1 class="text-2xl font-bold mb-1">Welcome to Bookly 👋</h1>
+  <p class="text-slate-500 mb-5">Step 1 of 3 — tell us about your business.</p>
+  <form method="post" action="/setup/business" class="space-y-3">
+    <input name="name" required placeholder="Business name (e.g. Sharma Hair Studio)"
+           class="w-full border rounded-lg p-2" />
+    <input name="phone" placeholder="Phone (optional)" class="w-full border rounded-lg p-2" />
+    <input name="address" placeholder="Address (optional)" class="w-full border rounded-lg p-2" />
+    <button type="submit"
+            class="w-full bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
+      Continue
+    </button>
+  </form>
+</div>
+{% endblock %}

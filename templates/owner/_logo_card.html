@@ -1,0 +1,26 @@
+<div id="logo-card">
+  {% if business.logo_url %}
+  <img src="{{ business.logo_url }}" alt="logo"
+       class="w-16 h-16 rounded-full object-cover mb-3" />
+  {% else %}
+  <p class="text-sm text-slate-400 mb-3">No logo uploaded yet.</p>
+  {% endif %}
+
+  {% if storage_configured is defined and not storage_configured %}
+  <p class="text-xs text-slate-400">Connect image storage (R2) to enable uploads.</p>
+  {% else %}
+  <form
+    hx-post="/dashboard/logo"
+    hx-target="#logo-card"
+    hx-swap="outerHTML"
+    hx-encoding="multipart/form-data"
+    class="flex items-center gap-2">
+    <input type="file" name="file" accept="image/png,image/jpeg,image/webp" required
+           class="text-sm" />
+    <button type="submit"
+            class="bg-indigo-600 text-white rounded-lg px-3 py-1.5 text-sm hover:bg-indigo-700">
+      Upload
+    </button>
+  </form>
+  {% endif %}
+</div>

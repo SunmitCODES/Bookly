@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ business.name }}{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">{{ business.name }}</h1>
+  <div class="flex items-center gap-4 text-sm">
+    <a href="/setup/services" class="text-indigo-600 hover:underline">Services</a>
+    <a href="/setup/availability" class="text-indigo-600 hover:underline">Hours</a>
+    <a href="/billing" class="text-indigo-600 hover:underline">Billing</a>
+    <a href="/logout" class="text-slate-500 hover:underline">Log out</a>
+  </div>
+</div>
+
+<div class="bg-white rounded-xl shadow p-4 mb-6">
+  <p class="text-sm text-slate-500">Your public booking link:</p>
+  <code class="text-indigo-700 break-all">{{ public_link }}</code>
+</div>
+
+<div class="bg-white rounded-xl shadow p-4 mb-6">
+  <h2 class="font-semibold mb-3">Business logo</h2>
+  {% include "owner/_logo_card.html" %}
+</div>
+
+<div id="reschedule-panel" class="mb-6"></div>
+
+<div class="bg-white rounded-xl shadow p-4">
+  <h2 class="font-semibold mb-3">Bookings</h2>
+  <div id="bookings-table">
+    {% include "owner/_bookings_table.html" %}
+  </div>
+</div>
+{% endblock %}

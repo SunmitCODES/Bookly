@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Your services — Bookly{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto">
+  <h1 class="text-2xl font-bold mb-1">Services</h1>
+  <p class="text-slate-500 mb-5">Step 2 of 3 — add the services customers can book.</p>
+
+  <div class="bg-white rounded-xl shadow p-5 mb-5">
+    <form
+      hx-post="/setup/services"
+      hx-target="#services-list"
+      hx-swap="outerHTML"
+      hx-on::after-request="this.reset()"
+      class="grid grid-cols-2 gap-2">
+      <input name="name" required placeholder="Service name"
+             class="col-span-2 border rounded-lg p-2" />
+      <input name="duration_mins" type="number" min="5" step="5" required placeholder="Minutes"
+             class="border rounded-lg p-2" />
+      <input name="price" type="number" min="0" step="1" required placeholder="Price (₹)"
+             class="border rounded-lg p-2" />
+      <button type="submit"
+              class="col-span-2 bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
+        Add service
+      </button>
+    </form>
+  </div>
+
+  <div class="bg-white rounded-xl shadow p-5 mb-5">
+    {% include "owner/_services_list.html" %}
+  </div>
+
+  <a href="/setup/availability"
+     class="block text-center bg-slate-800 text-white rounded-lg px-4 py-2 hover:bg-slate-900">
+    Next: set your hours →
+  </a>
+</div>
+{% endblock %}

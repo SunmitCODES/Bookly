@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Book — {{ business.name }}{% endblock %}
+{% block content %}
+<div class="bg-white rounded-xl shadow p-6">
+  <div class="flex items-center gap-4 mb-6">
+    {% if business.logo_url %}
+      <img src="{{ business.logo_url }}" alt="logo" class="w-14 h-14 rounded-full object-cover" />
+    {% endif %}
+    <div>
+      <h1 class="text-2xl font-bold">{{ business.name }}</h1>
+      {% if business.address %}<p class="text-slate-500 text-sm">{{ business.address }}</p>{% endif %}
+    </div>
+  </div>
+
+  {% if not services %}
+    <p class="text-slate-500">This business has no bookable services yet.</p>
+  {% else %}
+  <form
+    hx-get="/b/{{ business.slug }}/slots-partial"
+    hx-target="#slots"
+    hx-swap="innerHTML"
+    class="space-y-4"
+  >
+    <div>
+      <label class="block text-sm font-medium mb-1">Service</label>
+      <select name="service_id" required class="w-full border rounded-lg p-2">
+        {% for s in services %}
+        <option value="{{ s.id }}">{{ s.name }} — ₹{{ "%.0f"|format(s.price) }} ({{ s.duration_mins }} min)</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Date</label>
+      <input type="date" name="date" required class="w-full border rounded-lg p-2" />
+    </div>
+    <button type="submit" class="bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
+      Show available times
+    </button>
+  </form>
+
+  <div id="slots" class="mt-6"></div>
+  {% endif %}
+</div>
+{% endblock %}

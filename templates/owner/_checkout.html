@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Complete payment — Bookly{% endblock %}
+{% block content %}
+<div class="bg-white rounded-xl shadow p-6 max-w-md mx-auto mt-10 text-center">
+  <h1 class="text-xl font-bold mb-3">Complete your {{ tier|capitalize }} subscription</h1>
+  <p class="text-slate-600 mb-4">Click below to pay securely via Razorpay.</p>
+  <button id="pay-btn"
+          class="bg-indigo-600 text-white rounded-lg px-5 py-2 hover:bg-indigo-700">
+    Pay now
+  </button>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  document.getElementById("pay-btn").onclick = function () {
+    var rzp = new Razorpay({
+      key: "{{ razorpay_key_id }}",
+      subscription_id: "{{ subscription_id }}",
+      name: "Bookly",
+      description: "{{ tier|capitalize }} plan subscription",
+      handler: function () {
+        window.location.href = "/billing";
+      },
+    });
+    rzp.open();
+  };
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% if not bookings %}
+  <p class="text-slate-500 text-sm">No bookings yet.</p>
+{% else %}
+<table class="w-full text-sm">
+  <thead>
+    <tr class="text-left text-slate-500 border-b">
+      <th class="py-2">When</th>
+      <th class="py-2">Customer</th>
+      <th class="py-2">Phone</th>
+      <th class="py-2">Status</th>
+      <th class="py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in bookings %}
+    <tr class="border-b last:border-0">
+      <td class="py-2">{{ b.start_time | ist }}</td>
+      <td class="py-2">{{ b.customer_name }}</td>
+      <td class="py-2">{{ b.customer_phone }}</td>
+      <td class="py-2">
+        <span class="text-xs rounded-full px-2 py-0.5
+          {% if b.status == 'confirmed' %}bg-green-100 text-green-700
+          {% elif b.status == 'cancelled' %}bg-red-100 text-red-700
+          {% else %}bg-slate-100 text-slate-600{% endif %}">
+          {{ b.status }}
+        </span>
+      </td>
+      <td class="py-2">
+        {% if b.status == 'confirmed' %}
+        <div class="flex gap-2">
+          <button
+            hx-get="/dashboard/bookings/{{ b.id }}/reschedule"
+            hx-target="#reschedule-panel"
+            hx-swap="innerHTML"
+            class="text-xs text-indigo-600 hover:underline">Reschedule</button>
+          <button
+            hx-post="/dashboard/bookings/{{ b.id }}/cancel"
+            hx-target="#bookings-table"
+            hx-swap="innerHTML"
+            hx-confirm="Cancel this booking?"
+            class="text-xs text-red-600 hover:underline">Cancel</button>
+        </div>
+        {% else %}
+          <span class="text-xs text-slate-400">—</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}

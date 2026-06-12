@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Manage booking — {{ business.name }}{% endblock %}
+{% block content %}
+<div class="bg-white rounded-xl shadow p-6 max-w-md mx-auto mt-10">
+  <h1 class="text-xl font-bold mb-4">Your booking</h1>
+  <div id="manage-body">
+    {% if booking.status == 'cancelled' %}
+      {% include "public/_cancelled.html" %}
+    {% else %}
+    <ul class="space-y-1 text-slate-700 mb-5">
+      <li><strong>{{ business.name }}</strong></li>
+      <li>{{ service.name }}</li>
+      <li>{{ booking.start_time | ist }}</li>
+      <li>Name: {{ booking.customer_name }}</li>
+    </ul>
+    <button
+      hx-post="/booking/{{ token }}/cancel"
+      hx-target="#manage-body"
+      hx-swap="innerHTML"
+      hx-confirm="Cancel this booking?"
+      class="bg-red-600 text-white rounded-lg px-4 py-2 hover:bg-red-700">
+      Cancel my booking
+    </button>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

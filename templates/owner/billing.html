@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Billing — Bookly{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Billing</h1>
+  <a href="/dashboard" class="text-sm text-slate-500 hover:underline">← Dashboard</a>
+</div>
+
+<p class="mb-6 text-slate-600">
+  Current plan:
+  <span class="font-semibold">{{ plans[business.plan].label }}</span>
+  <span class="text-xs text-slate-400">({{ business.plan_status }})</span>
+</p>
+
+<div class="grid sm:grid-cols-3 gap-4">
+  {% for key, info in plans.items() %}
+  <div class="bg-white rounded-xl shadow p-5 flex flex-col
+    {% if business.plan == key %}ring-2 ring-indigo-500{% endif %}">
+    <h2 class="text-lg font-bold">{{ info.label }}</h2>
+    <p class="text-2xl font-bold mt-1">
+      {% if info.price == 0 %}Free{% else %}₹{{ info.price }}<span class="text-sm font-normal text-slate-400">/mo</span>{% endif %}
+    </p>
+    <ul class="text-sm text-slate-600 mt-3 space-y-1 flex-1">
+      {% if key == 'free' %}
+        <li>1 service</li><li>30 bookings / month</li>
+      {% elif key == 'pro' %}
+        <li>10 services</li><li>Unlimited bookings</li>
+      {% else %}
+        <li>Unlimited services</li><li>Unlimited bookings</li>
+      {% endif %}
+    </ul>
+    {% if business.plan == key %}
+      <button disabled class="mt-4 bg-slate-100 text-slate-400 rounded-lg px-4 py-2">Current plan</button>
+    {% elif key != 'free' %}
+      <form method="post" action="/billing/subscribe" class="mt-4">
+        <input type="hidden" name="tier" value="{{ key }}" />
+        <button type="submit"
+                class="w-full bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
+          Upgrade to {{ info.label }}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

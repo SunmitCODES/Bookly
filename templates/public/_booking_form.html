@@ -1,0 +1,22 @@
+<div class="border rounded-lg p-4 bg-slate-50">
+  <p class="font-medium mb-3">Booking for <span class="text-indigo-700">{{ start_time | ist("%a %d %b, %I:%M %p") }}</span></p>
+  <form
+    hx-post="/b/{{ slug }}/book"
+    hx-target="#slots"
+    hx-swap="innerHTML"
+    class="space-y-3"
+  >
+    <input type="hidden" name="service_id" value="{{ service_id }}" />
+    <input type="hidden" name="start_time" value="{{ start_time.isoformat() }}" />
+    <input name="customer_name" required placeholder="Your name"
+           class="w-full border rounded-lg p-2" />
+    <input name="customer_phone" required placeholder="Phone number"
+           class="w-full border rounded-lg p-2" />
+    <input name="customer_email" type="email" placeholder="Email (optional)"
+           class="w-full border rounded-lg p-2" />
+    <button type="submit"
+            class="bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
+      Confirm booking
+    </button>
+  </form>
+</div>

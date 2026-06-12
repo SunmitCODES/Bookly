@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.env
+.git/
+.gitignore
+.vscode/
+*.md
+alembic/versions/*
